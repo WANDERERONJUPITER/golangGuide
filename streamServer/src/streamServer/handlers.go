@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	VIDEO_DIR = "../videos/"
-	MAX_UPLOAD_SIZE = 1024*1024*1024
+	VIDEO_DIR       = "../videos/"
+	MAX_UPLOAD_SIZE = 1024 * 1024 * 1024
 )
 
 func streamHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -32,7 +32,7 @@ func streamHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) 
 	defer video.Close()
 
 	targetUrl := ""
-	http.Redirect(w,r,targetUrl,301)
+	http.Redirect(w, r, targetUrl, 301)
 }
 
 func uploadHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -90,7 +90,6 @@ func testPageHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params
 	t.Execute(w, nil)
 
 }
-
 
 /*
 1.  local -> oss   简单   消耗服务器的流量和带宽

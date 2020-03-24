@@ -1,8 +1,8 @@
 package dbops
 
 import (
+	_ "github.com/go-sql-driver/mysql"
 	"log"
-	_"github.com/go-sql-driver/mysql"
 )
 
 /*
@@ -11,7 +11,7 @@ dispatcher --> mysql -->video id --> datachannel
 executor --> datachannel --> video id -->delete videos
 */
 
-func ReadVideoDeletionRecord(count int) ([]string,error)  {
+func ReadVideoDeletionRecord(count int) ([]string, error) {
 	stmtOut, err := dbConn.Prepare("SELECT video_id FROM video_del_rec LIMIT ?")
 
 	var ids []string

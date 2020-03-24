@@ -1,4 +1,5 @@
 package dbops
+
 //  TODO 每次提交代码之前先跑 test
 import (
 	"fmt"
@@ -12,53 +13,53 @@ import (
 
 var tempvid string
 
-func clearTables()  {
+func clearTables() {
 	dbConn.Exec("truncate users")
 	dbConn.Exec("truncate video_info")
 	dbConn.Exec("truncate comments")
 	dbConn.Exec("truncate sessions")
 }
 
-func TestMain(m *testing.M)  {
+func TestMain(m *testing.M) {
 	clearTables()
 	m.Run()
 	clearTables()
 }
 
 //为保证顺序，我们使用subTest
-func TestUserWorkFlow(t *testing.T)  {
-	t.Run("Add",testAddUser)
-	t.Run("Get",testGetUser)
-	t.Run("Delete",testDeleteUser)
-	t.Run("Reget",testReGetUser)
+func TestUserWorkFlow(t *testing.T) {
+	t.Run("Add", testAddUser)
+	t.Run("Get", testGetUser)
+	t.Run("Delete", testDeleteUser)
+	t.Run("Reget", testReGetUser)
 }
 
-func testAddUser(t *testing.T)  {
+func testAddUser(t *testing.T) {
 	//TODO  这里使用mock data
-	err := AddUserCredential("aaron","anderson")
+	err := AddUserCredential("aaron", "anderson")
 	if err != nil {
-		t.Errorf("error of addUser: %v",err)
+		t.Errorf("error of addUser: %v", err)
 	}
 }
 
-func testGetUser(t *testing.T)  {
-	pwd,err := GetUserCredential("aaron")
-	if err!= nil || pwd!="anderson" {
+func testGetUser(t *testing.T) {
+	pwd, err := GetUserCredential("aaron")
+	if err != nil || pwd != "anderson" {
 		t.Errorf("error of getUser: %v", err)
 	}
 }
 
-func testDeleteUser(t *testing.T)  {
-	err := DeleteUser("aaron","anderson")
-	if err!= nil {
+func testDeleteUser(t *testing.T) {
+	err := DeleteUser("aaron", "anderson")
+	if err != nil {
 		t.Errorf("error of deleteUser: %v", err)
 	}
 }
 
 //TODO  考虑这里实施的必要性，是否说测试删除成功之后我们根本没有必要再获取一次
-func testReGetUser(t *testing.T)  {
-	pwd ,err :=GetUserCredential("aaron")
-	if err!= nil  {
+func testReGetUser(t *testing.T) {
+	pwd, err := GetUserCredential("aaron")
+	if err != nil {
 		t.Errorf("error of reGetUser: %v", err)
 	}
 
@@ -67,8 +68,6 @@ func testReGetUser(t *testing.T)  {
 		t.Errorf("delete user test failed: %s", err)
 	}
 }
-
-
 
 // ---------------- video test  begin--------------
 func TestVideoWorkFlow(t *testing.T) {
@@ -105,11 +104,10 @@ func testDeleteVideoInfo(t *testing.T) {
 
 func testRegetVideoInfo(t *testing.T) {
 	vi, err := GetVideoInfo(tempvid)
-	if err != nil || vi != nil{
+	if err != nil || vi != nil {
 		t.Errorf("Error of RegetVideoInfo: %v", err)
 	}
 }
-
 
 //comments
 func TestComments(t *testing.T) {

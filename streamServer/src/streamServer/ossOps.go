@@ -6,18 +6,16 @@ import (
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 )
 
-
 var (
 	EP, AK, SK string
-	OSSaddr string
+	OSSaddr    string
 )
 
-func init()  {
-	AK= ""
-	SK =""
+func init() {
+	AK = ""
+	SK = ""
 	EP = OSSaddr
 }
-
 
 func UploadToOss(filename string, path string, bn string) bool {
 	client, err := oss.New(EP, AK, SK)

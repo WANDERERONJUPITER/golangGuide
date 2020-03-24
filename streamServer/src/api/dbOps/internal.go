@@ -33,7 +33,7 @@ func RetrieveSession(sid string) (*defs.SimpleSession, error) {
 		return nil, err
 	}
 
-	var ttl,userName string
+	var ttl, userName string
 
 	err = stmtOut.QueryRow(sid).Scan(&ttl, &userName)
 	if err != nil && err != sql.ErrNoRows {
@@ -80,16 +80,16 @@ func RetrieveAllSessions() (*sync.Map, error) {
 	}
 
 	for rows.Next() {
-		var id,ttlStr,loginName string
+		var id, ttlStr, loginName string
 		if er := rows.Scan(&id, &ttlStr, &loginName); er != nil {
 			log.Printf("retrive sessions error: %s", er)
 			break
 		}
 
-		if ttl, err1 := strconv.ParseInt(ttlStr, 10, 64); err1 == nil{
+		if ttl, err1 := strconv.ParseInt(ttlStr, 10, 64); err1 == nil {
 			ss := &defs.SimpleSession{
 				Username: loginName,
-				TTL: ttl,
+				TTL:      ttl,
 			}
 			m.Store(id, ss)
 			log.Printf(" session id: %s, ttl: %d", id, ss.TTL)

@@ -1,4 +1,5 @@
 package defs
+
 type Err struct {
 	Error     string `json:"error"`
 	ErrorCode string `json:"error_code"`
@@ -16,7 +17,7 @@ var (
 	ErrorNotAuthUser = ErrResponse{
 		401, Err{"user authentication failed", "002"},
 	}
-	ErrorDBError        = ErrResponse{
+	ErrorDBError = ErrResponse{
 		HttpSC: 500, Error: Err{Error: "DB ops failed", ErrorCode: "003"}}
 	ErrorInternalFaults = ErrResponse{
 		HttpSC: 500, Error: Err{Error: "Internal service error", ErrorCode: "004"}}

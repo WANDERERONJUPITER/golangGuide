@@ -16,7 +16,7 @@ func RegisterHandler() *httprouter.Router {
 
 	router.POST("/api", apiHandler)
 
-	router.GET("/videos/:vid-id",proxyVideoHandler)
+	router.GET("/videos/:vid-id", proxyVideoHandler)
 
 	//这里我们将streamServer中的服务在这里通过proxy实现
 	router.POST("/upload/:vid-id", proxyUploadHandler)

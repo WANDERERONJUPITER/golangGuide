@@ -13,7 +13,7 @@ import (
 4. timer ->runner -> read (write video deletion record)->exec->delete video from folder
 */
 
-func AddVideoDeletionRecord(vid string) error  {
+func AddVideoDeletionRecord(vid string) error {
 	stmtIns, err := dbConn.Prepare("INSERT INTO video_del_rec (video_id) VALUES(?)")
 	if err != nil {
 		return err

@@ -18,7 +18,7 @@ func init() {
 
 func LoadSessionsFromDB() {
 	r, err := dbops.RetrieveAllSessions()
-	if err!=nil {
+	if err != nil {
 		return
 	}
 
@@ -34,7 +34,7 @@ func LoadSessionsFromDB() {
 func GenerateNewSessionId(userName string) string {
 	id, _ := utils.NewUUID()
 	ct := nowInMilli()
-	ttl := ct + 30 * 60 * 1000// Severs session valid time: 30 min
+	ttl := ct + 30*60*1000 // Severs session valid time: 30 min
 
 	ss := &defs.SimpleSession{Username: userName, TTL: ttl}
 	sessionMap.Store(id, ss)
@@ -53,7 +53,7 @@ func IsSessionExpired(sid string) (string, bool) {
 		}
 
 		return ss.(*defs.SimpleSession).Username, false
-	} else {//  保证数据逻辑一致
+	} else { //  保证数据逻辑一致
 		ss, err := dbops.RetrieveSession(sid)
 		if err != nil || ss == nil {
 			return "", true
@@ -70,8 +70,8 @@ func IsSessionExpired(sid string) (string, bool) {
 	return "", true
 }
 
-func nowInMilli() int64{
-	return time.Now().UnixNano()/1000000
+func nowInMilli() int64 {
+	return time.Now().UnixNano() / 1000000
 }
 
 func deleteExpiredSession(sid string) {

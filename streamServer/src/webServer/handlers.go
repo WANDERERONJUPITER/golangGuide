@@ -20,22 +20,22 @@ type UserPage struct {
 	Name string
 }
 
-func homeHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params)  {
+func homeHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	cname, err1 := r.Cookie("username")
 	sid, err2 := r.Cookie("session")
 
-	if err1 != nil || err2 != nil  {
+	if err1 != nil || err2 != nil {
 		p := &HomePage{
-			Name:"aaronAnderson",
+			Name: "aaronAnderson",
 		}
 
 		//todo nginx
-		t, err :=template.ParseFiles("./templates/home.html")
-		if err!=nil {
+		t, err := template.ParseFiles("./templates/home.html")
+		if err != nil {
 			log.Printf("parsing templates home.html failed: ", err)
 		}
-		t.Execute(w,p)
+		t.Execute(w, p)
 		return
 	}
 
@@ -47,7 +47,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params)  
 
 }
 
-func userHomeHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params){
+func userHomeHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	cname, err1 := r.Cookie("username")
 	_, err2 := r.Cookie("session")
 
@@ -76,14 +76,13 @@ func userHomeHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Param
 	t.Execute(w, p)
 }
 
-func apiHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params){
+func apiHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	//request 之前的预处理
 	if r.Method != http.MethodPost {
 		re, _ := json.Marshal(ErrorRequestNotRecognized)
 		io.WriteString(w, string(re))
 		return
 	}
-
 
 	res, _ := ioutil.ReadAll(r.Body)
 	apiBody := &ApiBody{}
@@ -99,16 +98,16 @@ func apiHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params){
 }
 
 // 域名转换，这里的整个header并没有改变
-func proxyUploadHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params){
+func proxyUploadHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	//TODO 这里在实际中不应该写死
 	u, _ := url.Parse("http://127.0.0.1:9000/")
 	proxy := httputil.NewSingleHostReverseProxy(u)
-	proxy.ServeHTTP(w,r)
+	proxy.ServeHTTP(w, r)
 }
 
 //在前端中（home.scripts line:134  window.location.hostname），一旦我们将streamServer部署到其他服务器，将会出现跨域
 //同proxyUploadHandler一样，我们考虑后期的扩展性，应该将不同的请求用不同的handler来处理
-func proxyVideoHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params){
+func proxyVideoHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	u, _ := url.Parse("http://" + config.GetLbAddr() + ":9000/")
 	proxy := httputil.NewSingleHostReverseProxy(u)
 	proxy.ServeHTTP(w, r)

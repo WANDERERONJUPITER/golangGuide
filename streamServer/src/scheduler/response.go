@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func sendResponse(w http.ResponseWriter,sc int,resp string)  {
+func sendResponse(w http.ResponseWriter, sc int, resp string) {
 	w.WriteHeader(sc)
-	io.WriteString(w,resp)
+	io.WriteString(w, resp)
 }
